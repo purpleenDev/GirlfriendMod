@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "gas/mtQh/gs=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\alexb\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\GirlfriendMod\\GirlfriendMod.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\alexb\\.nuget\\packages\\tmodloader.codeassist\\0.1.5\\tmodloader.codeassist.0.1.5.nupkg.sha512"
+  ],
+  "logs": []
+}

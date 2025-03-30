@@ -1,1 +1,15 @@
-A mod that lets you befriend the Lost Girl in the caverns using emoji messages. Win her heart, propose with a diamond ring, and live together—she’ll even cook for you!
+Girlfriend Mod lets you befriend and romance the Lost Girl found in caves!
+
+Features:
+- Send specific emotes to befriend the Lost Girl instead of fighting her
+- Progress through different relationship stages with dialogue options
+- Give her a diamond ring to make her your girlfriend
+- Let her move into a house on the surface
+- She'll learn to cook for you if you place a cooking pot in her house!
+
+How to befriend the Lost Girl:
+1. Find a Lost Girl in caves
+2. Use emotes (right-click empty slot at bottom-right of inventory)
+3. Send the sequence: Heart, Happy, Wave, Question
+
+The mod integrates with Terraria's emote system - no custom UI needed!

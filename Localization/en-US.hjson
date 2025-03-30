@@ -1,0 +1,59 @@
+Mods: {
+	GirlfriendMod: {
+		ItemName: {
+			DiamondRing: Diamond Ring
+		}
+		ItemTooltip: {
+			DiamondRing: "'A beautiful ring to propose with'\nGive this to the Friendly Nymph when her affection is high enough"
+		}
+		
+		Dialog: {
+			LostGirl: {
+				Befriended1: "Thank you for not attacking me like others do."
+				Befriended2: "I've been alone in these caves for so long..."
+				Befriended3: "Do you think we could be... friends?"
+				Befriended4: "I wish I could leave these caves someday."
+				
+				Girlfriend1: "I'm so happy we're together!"
+				Girlfriend2: "Living on the surface is much nicer than those cold caves."
+				Girlfriend3: "Do you want to go exploring sometime?"
+				
+				Cooking1: "I've been learning to cook. Would you like me to make something for you?"
+				Cooking2: "I found some new recipes I'd like to try!"
+				
+				CookingProgress: "Your meal will be ready in {0} seconds!"
+				CookingComplete: "Your meal is ready! Enjoy!"
+				
+				NeedRing: "I'd like something shiny to make our relationship official...maybe a diamond ring?"
+				AcceptRing: "Yes! I'd love to be your girlfriend and live with you on the surface!"
+				
+				TransformAngry: "You betrayed me!"
+			}
+		}
+		
+		UI: {
+			CookMeal: "Cook Meal"
+			CookingTime: "Cooking: {0}s"
+			Chat: "Chat"
+			Girlfriend: "Girlfriend"
+		}
+		
+		Common: {
+			BefriendSuccess: "The Lost Girl smiles at you shyly..."
+			NewGirlfriend: "She accepts your diamond ring with teary eyes..."
+			TransformHostile: "The Lost Girl transforms into a Nymph!"
+			LearnedCooking: "Your girlfriend has learned to cook!"
+			StartedCooking: "Your girlfriend started cooking. It will be ready in 5 minutes."
+			FinishedCooking: "Your girlfriend has finished cooking!"
+			EmoteReaction: "The Lost Girl seems to be reacting to your emotes..."
+			BefriendHint: "Try using the emote feature when near the Lost Girl. (Right click the empty slot at the bottom-right of your inventory)"
+			BefriendSuccess: "You've befriended the Lost Girl!"
+		}
+		
+		EmoteSequenceHint: {
+			Hint1: "She seems to respond to emoticons that show kindness and curiosity..."
+			Hint2: "Maybe try showing her your heart, then happiness, followed by a friendly gesture?"
+			Hint3: "The Lost Girl looks lonely. Perhaps showing her that you care about her will help."
+		}
+	}
+}
