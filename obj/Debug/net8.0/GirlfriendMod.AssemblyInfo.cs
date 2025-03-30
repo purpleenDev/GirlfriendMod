@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GirlfriendMod")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc37b9eab87cbb20f81efc25afa3ccccba2367b9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8945d66beb175f756d0ac522ca96aea3c72d0ee6")]
 [assembly: System.Reflection.AssemblyProductAttribute("GirlfriendMod")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GirlfriendMod")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
