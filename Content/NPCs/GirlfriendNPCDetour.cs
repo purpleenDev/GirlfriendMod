@@ -14,17 +14,14 @@ namespace GirlfriendMod.Content.NPCs
 {
     public class GirlfriendNPCDetour : GlobalNPC
     {
-        // Static fields to track NPC states
         private static Dictionary<int, bool> befriendedNPCs = new();
         private static Dictionary<int, bool> girlfriendNPCs = new();
         private static Dictionary<int, bool> canCookNPCs = new();
         private static Dictionary<int, int> affectionLevels = new();
         private static Dictionary<int, List<int>> receivedEmotes = new();
 
-        // Custom texture for Lost Girl and Friendly Girl when moving
         private static Asset<Texture2D> friendlyGirlTexture;
 
-        // Sequence of emotes required to befriend the NPC
         private static readonly int[] correctEmoteSequence = { EmoteID.EmotionLove, EmoteID.EmoteHappiness };
 
         public override bool AppliesToEntity(NPC npc, bool lateInstantiation)
@@ -34,13 +31,19 @@ namespace GirlfriendMod.Content.NPCs
 
         public override bool PreAI(NPC npc)
         {
-            // Prevent Lost Girl transformation when a player is nearby, unless attacked
             if (npc.type == NPCID.LostGirl && (!befriendedNPCs.TryGetValue(npc.whoAmI, out bool isBefriended) || !isBefriended))
             {
                 Player nearestPlayer = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
                 if (Vector2.Distance(nearestPlayer.Center, npc.Center) <= 300f)
                 {
-                    npc.ai[0] = 0; // Reset transformation timer
+                    npc.ai[0] = 0;
+                }
+
+                // Occasional fear or sadness emotes for Lost Girl
+                if (Main.rand.NextBool(1000))
+                {
+                    int emoteID = Main.rand.NextBool() ? EmoteID.EmoteFear : EmoteID.EmoteSadness;
+                    EmoteBubble.NewBubble(emoteID, new WorldUIAnchor(npc), 180);
                 }
             }
 
@@ -59,12 +62,12 @@ namespace GirlfriendMod.Content.NPCs
                         CheckForCookingPot(npc);
                     }
                 }
-                else if (Main.rand.NextBool(1000)) // Occasional emotes for Friendly Girl
+                else if (Main.rand.NextBool(1000))
                 {
                     int emoteID = Main.rand.NextBool() ? EmoteID.EmoteSadness : EmoteID.EmoteConfused;
                     EmoteBubble.NewBubble(emoteID, new WorldUIAnchor(npc), 180);
                 }
-                return false; // Override default AI
+                return false;
             }
             return true;
         }
@@ -73,7 +76,7 @@ namespace GirlfriendMod.Content.NPCs
         {
             if (npc.type == NPCID.LostGirl && befriendedNPCs.TryGetValue(npc.whoAmI, out bool befriended) && befriended)
             {
-                npc.ai[0] = 0; // Prevent transformation for Friendly Girl
+                npc.ai[0] = 0;
                 npc.GivenName = girlfriendNPCs.TryGetValue(npc.whoAmI, out bool isGirlfriend) && isGirlfriend ? "Girlfriend" : "Friendly Girl";
             }
         }
@@ -83,38 +86,35 @@ namespace GirlfriendMod.Content.NPCs
             if (!Main.dedServ && friendlyGirlTexture != null)
             {
                 Texture2D textureToUse;
-                bool isMoving = Math.Abs(npc.velocity.X) > 0.1f; // Consider moving if horizontal velocity is significant
+                bool isMoving = Math.Abs(npc.velocity.X) > 0.1f;
 
                 if (npc.type == NPCID.LostGirl)
                 {
                     if (befriendedNPCs.TryGetValue(npc.whoAmI, out bool befriended) && befriended)
                     {
-                        // Friendly Girl uses FriendlyGirl sprite when moving
                         textureToUse = isMoving ? friendlyGirlTexture.Value : TextureAssets.Npc[npc.type].Value;
                     }
                     else
                     {
-                        // Lost Girl uses FriendlyGirl sprite when moving, vanilla otherwise
                         textureToUse = isMoving ? friendlyGirlTexture.Value : TextureAssets.Npc[npc.type].Value;
                     }
                 }
                 else if (npc.type == NPCID.Nymph)
                 {
-                    // Nymph always uses NPC_195
-                    textureToUse = TextureAssets.Npc[NPCID.Nymph].Value; // NPC_195
+                    textureToUse = TextureAssets.Npc[NPCID.Nymph].Value;
                 }
                 else
                 {
-                    return true; // Use default texture for other NPCs
+                    return true;
                 }
 
-                // Draw the NPC with the selected texture
-                SpriteEffects effects = npc.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                SpriteEffects effects = npc.velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
                 Vector2 drawPosition = npc.Center - screenPos;
                 spriteBatch.Draw(textureToUse, drawPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() * 0.5f, npc.scale, effects, 0f);
-                return false; // Skip vanilla drawing
+                return false;
             }
-            return true; // Use vanilla drawing if texture isn’t loaded
+            return true;
         }
 
         public override void GetChat(NPC npc, ref string chat)
@@ -197,7 +197,7 @@ namespace GirlfriendMod.Content.NPCs
             NPC npc = Main.npc[npcId];
             var modPlayer = player.GetModPlayer<global::GirlfriendMod.Content.Players.GirlfriendModPlayer>();
 
-            if ((npc.type != NPCID.LostGirl && npc.type != NPCID.Nymph) ||
+            if (npc.type != NPCID.LostGirl ||
                 (befriendedNPCs.TryGetValue(npcId, out bool befriended) && befriended)) return false;
 
             receivedEmotes.TryAdd(npcId, new List<int>());
@@ -317,18 +317,16 @@ namespace GirlfriendMod.Content.NPCs
         {
             if (npc.type == NPCID.LostGirl && (!befriendedNPCs.TryGetValue(npc.whoAmI, out bool befriended) || !befriended))
             {
-                npc.Transform(NPCID.Nymph); // Transform to Nymph using NPC_195 sprite
+                npc.Transform(NPCID.Nymph);
             }
-            // Friendly Girl does not transform if hit
         }
 
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             if (npc.type == NPCID.LostGirl && (!befriendedNPCs.TryGetValue(npc.whoAmI, out bool befriended) || !befriended))
             {
-                npc.Transform(NPCID.Nymph); // Transform to Nymph using NPC_195 sprite
+                npc.Transform(NPCID.Nymph);
             }
-            // Friendly Girl does not transform if hit
         }
     }
 }
